@@ -63,7 +63,7 @@ var w_material = new THREE.MeshLambertMaterial({
 	//	map : THREE.ImageUtils.loadTexture(boardTextures[boardTexturesKeys[count]])
 });
 var b_material = new THREE.MeshLambertMaterial({
-	color : "red"
+	color : "#23272B"
 });
 
 //geometries
@@ -173,8 +173,14 @@ function onCreate() {
 	setUpQueens();
 }
 
+var jsonCount = 0;
+function checkBeforeLoad(callback) {
+	if (jsonCount == 6) {
+		callback();
+	}
+}
 
-function preload() {
+function preload(callback) {
 	//use this method to perform heavy tasks
 	//loading chess models
 	console.log("inside preload");
@@ -184,6 +190,8 @@ function preload() {
 		pawnGeometry = geom;
 		console.log("inside laod pawn");
 		//setUpPawns();
+		jsonCount++;
+		checkBeforeLoad(callback);
 	});
 
 	console.log("after 1");
@@ -192,6 +200,9 @@ function preload() {
 		rookGeometry = geom;
 		console.log("inside load rook");
 		//setUpRooks();
+		jsonCount++;
+		checkBeforeLoad(callback);
+
 	});
 
 	console.log("after 2");
@@ -200,6 +211,9 @@ function preload() {
 		knightGeometry = geom;
 		console.log("inside load knight")
 		//setUpKnights();
+		jsonCount++;
+		checkBeforeLoad(callback);
+
 	});
 
 	console.log("after 3");
@@ -208,6 +222,9 @@ function preload() {
 		bishopGeometry = geom;
 		console.log("inside load bishop")
 		//setUpBishops();
+		jsonCount++;
+		checkBeforeLoad(callback);
+
 	});
 
 	console.log("after 4");
@@ -216,6 +233,9 @@ function preload() {
 		queenGeometry = geom;
 		console.log("inside load queen")
 		//setUpQueens();
+		jsonCount++;
+		checkBeforeLoad(callback);
+
 	});
 
 	console.log("after 5");
@@ -224,6 +244,9 @@ function preload() {
 		kingGeometry = geom;
 		console.log("inside load king")
 		//setUpKings();
+		jsonCount++;
+		checkBeforeLoad(callback);
+
 	});
 
 	console.log("after 6");
