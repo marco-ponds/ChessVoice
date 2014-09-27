@@ -57,6 +57,17 @@ var white = {
 	rooks : []
 };
 
+var langMapping = {
+	"it-IT": {
+		"pedone"	: "pawns",
+		"torre"		: "rooks",
+		"alfiere"	: "bishops",
+		"cavallo"	: "knights",
+		"regina"	: "queen",
+		"re"		: "king"
+	}
+}
+
 //black and white materials
 var w_material = new THREE.MeshLambertMaterial({
 	color : "white",
@@ -74,6 +85,12 @@ var knightGeometry, knightMaterial;
 var kingGeometry, kingMaterial;
 var queenGeometry, queenMaterial;
 
+/*
+	voice recognition methods
+*/
+var recognition, recognizing = false;
+var selectedlanguage = "it-IT";
+var languages = ["it-IT", "en-GB", "en-US"];
 
 function convertPosition( letter, number ) {
 	//if we have a1, we must give
@@ -92,9 +109,9 @@ function moveTo(element, position) {
 		z : element.position.z
 	};
 	var t = new TWEEN.Tween(current).to({x : position.x, z: position.z}, 1000);
-	t.easing(TWEEN.Easing.Elastic.EaseIn);
+	t.easing(TWEEN.Easing.Exponential.EaseIn);
 	t.onUpdate(function() {
-		//console.log("current " + current);
+		////console.log("current " + current);
 		element.position.x = current.x;
 		element.position.z = current.z;
 	});
@@ -171,6 +188,58 @@ function onCreate() {
 	setUpBishops();
 	setUpKings();
 	setUpQueens();
+
+	//starting recognition
+	setUpRecognition();
+	recognition.lang = selectedlanguage;
+	recognition.start();
+}
+
+function parseVocalInput(input) {
+	recognition.stop();
+	var words = input.split(" ");
+	var foundPiece, piecePos;
+	var foundTarget, foundTargetNum;
+	for (var i in words) {
+		for (var k in langMapping[selectedlanguage]){
+			l("searching " + words[i] + " . " + k);
+			if (words[i].toLowerCase() == k) {
+				piecePos = i;
+				foundPiece = langMapping[selectedlanguage][k];
+				break;
+			}
+		}
+		if (foundPiece) break;
+	}
+	//a questo punto dobbiamo cercare di capire la posizione in cui vogliamo spostare il pezzo
+	words = input.split("");
+	for (var i in words) {
+		//se trovo un numero, guardo se la parola prima è una lettera
+		if (!isNaN(words[i])) {
+			foundTargetNum = parseInt(words[i]) < 9 ? parseInt(words[i]) : undefined;
+			if (words[i-1] != " " && words[i-1] != undefined) {
+				if (letters.indexOf(words[i-1].toLowerCase()) != -1) {
+					//abbiamo trovato una delle lettere valide
+					foundTarget = words[i-1].toLowerCase();
+				}
+ 			} else if (words[i-1] != " " && words[i-1] != undefined) {
+					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
+						//abbiamo trovato una delle lettere valide
+						foundTarget = words[i-2].toLowerCase();
+					}
+ 			} 			
+		}
+
+		if (foundTarget && foundTargetNum) {
+			break;
+		}
+	}
+
+	l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
+
+	moveTo(white[foundPiece],convertPosition(foundTarget,foundTargetNum));
+	recognition.start();
+
 }
 
 var jsonCount = 0;
@@ -183,73 +252,73 @@ function checkBeforeLoad(callback) {
 function preload(callback) {
 	//use this method to perform heavy tasks
 	//loading chess models
-	console.log("inside preload");
+	//console.log("inside preload");
 	var loader = new THREE.JSONLoader(true);
 	//setting up pawns
 	loader.load("models/pawn.js", function(geom, mats) {
 		pawnGeometry = geom;
-		console.log("inside laod pawn");
+		//console.log("inside laod pawn");
 		//setUpPawns();
 		jsonCount++;
 		checkBeforeLoad(callback);
 	});
 
-	console.log("after 1");
+	//console.log("after 1");
 
 	loader.load("models/rook.js", function(geom, mats) {
 		rookGeometry = geom;
-		console.log("inside load rook");
+		//console.log("inside load rook");
 		//setUpRooks();
 		jsonCount++;
 		checkBeforeLoad(callback);
 
 	});
 
-	console.log("after 2");
+	//console.log("after 2");
 
 	loader.load("models/knight.js", function(geom, mats) {
 		knightGeometry = geom;
-		console.log("inside load knight")
+		//console.log("inside load knight")
 		//setUpKnights();
 		jsonCount++;
 		checkBeforeLoad(callback);
 
 	});
 
-	console.log("after 3");
+	//console.log("after 3");
 
 	loader.load("models/bishop.js", function(geom, mats) {
 		bishopGeometry = geom;
-		console.log("inside load bishop")
+		//console.log("inside load bishop")
 		//setUpBishops();
 		jsonCount++;
 		checkBeforeLoad(callback);
 
 	});
 
-	console.log("after 4");
+	//console.log("after 4");
 
 	loader.load("models/queen.js", function(geom, mats) {
 		queenGeometry = geom;
-		console.log("inside load queen")
+		//console.log("inside load queen")
 		//setUpQueens();
 		jsonCount++;
 		checkBeforeLoad(callback);
 
 	});
 
-	console.log("after 5");
+	//console.log("after 5");
 
 	loader.load("models/king.js", function(geom, mats) {
 		kingGeometry = geom;
-		console.log("inside load king")
+		//console.log("inside load king")
 		//setUpKings();
 		jsonCount++;
 		checkBeforeLoad(callback);
 
 	});
 
-	console.log("after 6");
+	//console.log("after 6");
 }
 
 function handleBoardRender(obj) {
