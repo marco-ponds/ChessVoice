@@ -104,6 +104,8 @@ function convertPosition( letter, number ) {
 }
 
 function moveTo(element, position) {
+	//storing position inside element
+	element._position = position;
 	var current = {
 		x : element.position.x,
 		z : element.position.z
@@ -238,8 +240,6 @@ function parseVocalInput(input) {
 	l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
 
 	moveTo(white[foundPiece],convertPosition(foundTarget,foundTargetNum));
-	recognition.start();
-
 }
 
 var jsonCount = 0;
