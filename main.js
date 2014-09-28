@@ -248,6 +248,14 @@ function checkBeforeLoad(callback) {
 		callback();
 	}
 }
+console.log("parsing main.js");
+progressAnimation = function(callback) {
+	console.log("my progress");
+	$('#loader').animate({"opacity" : "0", "margin-top" : "250px"}, 1000 , function () {
+		$('#loader').remove();	
+		$('body').animate({backgroundColor : "#fff"}, 200 , callback);
+	});
+}
 
 function preload(callback) {
 	//use this method to perform heavy tasks
