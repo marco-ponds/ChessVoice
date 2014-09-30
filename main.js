@@ -22,7 +22,7 @@ function onLeapDeviceDisconnected() {
 }
 
 
-var board, cube, bishop;
+var board, cube, bishop, skyBox;
 var boardTexturesKeys = ["plain", "wood"];
 var boardTextures = {
 	"plain" : "img/chessboard.gif",
@@ -120,7 +120,7 @@ function moveTo(element, position) {
 	t.start();
 }
 
-var count = 0;
+var count = 1;
 function changeBoardTexture() {
 	board.material.map = THREE.ImageUtils.loadTexture(boardTextures[boardTexturesKeys[count]]);
 	count++;
@@ -142,7 +142,7 @@ function onCreate() {
 	}
 
 	var material = new THREE.MeshLambertMaterial({
-		map: THREE.ImageUtils.loadTexture(boardTextures.wood),
+		map: THREE.ImageUtils.loadTexture(boardTextures.plain),
 		side : THREE.DoubleSide
 	});
 	// board
@@ -175,6 +175,23 @@ function onCreate() {
 	core.add(back);
 	back._render = function() {}
 
+	//var geometry = new THREE.SphereGeometry(3000, 60, 40);
+	//var uniforms = {
+	//  texture: { type: 't', value: THREE.ImageUtils.loadTexture('img/skyBox.jpg') }
+	//};
+
+	//var material = new THREE.ShaderMaterial( {
+	//	uniforms:       uniforms,
+	//	vertexShader:   document.getElementById('sky-vertex').textContent,
+	//	fragmentShader: document.getElementById('sky-fragment').textContent
+	//});
+
+	//skyBox = new THREE.Mesh(geometry, material);
+	//skyBox.scale.set(-1, 1, 1);
+	//skyBox.rotation.order = 'XZY';
+	//skyBox.renderDepth = 1000.0;
+	//core.add(skyBox);
+
 	/*
 		TO DO LIST
 		 - get models for each chess element
@@ -192,9 +209,14 @@ function onCreate() {
 	setUpQueens();
 
 	//starting recognition
-	setUpRecognition();
-	recognition.lang = selectedlanguage;
-	recognition.start();
+	/*
+
+			we should use a different approach, using web workers to unload dom thread
+
+	*/	
+	//setUpRecognition();
+	//recognition.lang = selectedlanguage;
+	//recognition.start();
 }
 
 function parseVocalInput(input) {
@@ -224,12 +246,12 @@ function parseVocalInput(input) {
 					//abbiamo trovato una delle lettere valide
 					foundTarget = words[i-1].toLowerCase();
 				}
- 			} else if (words[i-1] != " " && words[i-1] != undefined) {
+			} else if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
 						foundTarget = words[i-2].toLowerCase();
 					}
- 			} 			
+			} 			
 		}
 
 		if (foundTarget && foundTargetNum) {
@@ -324,7 +346,7 @@ function preload(callback) {
 		jsonCount++;
 		checkBeforeLoad(callback);
 
-	});
+	});	
 
 	//console.log("after 6");
 }
@@ -333,8 +355,8 @@ function handleBoardRender(obj) {
 }
 
 input.keydown = function(event) {
-
-};
+	//l(event);
+};	
 
 input.keyup = function(event) {
 
