@@ -65,6 +65,41 @@ var langMapping = {
 		"cavallo"	: "knights",
 		"regina"	: "queen",
 		"re"		: "king"
+	},
+	"en-US": {
+		"pawn"		: "pawns",
+		"rook"		: "rooks",
+		"bishop"	: "bishops",
+		"knight"	: "knights",
+		"queen"		: "queen",
+		"king"		: "king"
+	},
+	"en-GB": {
+		"pawn"		: "pawns",
+		"rook"		: "rooks",
+		"bishop"	: "bishops",
+		"knight"	: "knights",
+		"queen"		: "queen",
+		"king"		: "king"
+	}
+}
+
+var symbolsMap = {
+	"white": {
+		"pawn"		: "&#9817;",
+		"rook"		: "&#9814;",
+		"bishop"	: "&#9815;",
+		"knight"	: "&#9816;",
+		"queen"		: "&#9813;",
+		"king"		: "&#9812;"
+	},
+	"black": {
+		"pawn"		: "&#9823;",
+		"rook"		: "&#9820;",
+		"bishop"	: "&#9821;",
+		"knight"	: "&#9822;",
+		"queen"		: "&#9819;",
+		"king"		: "&#9818;"
 	}
 }
 
