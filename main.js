@@ -214,9 +214,9 @@ function onCreate() {
 			we should use a different approach, using web workers to unload dom thread
 
 	*/	
-	//setUpRecognition();
-	//recognition.lang = selectedlanguage;
-	//recognition.start();
+	setUpRecognition();
+	recognition.lang = selectedlanguage;
+	recognition.start();
 }
 
 function parseVocalInput(input) {
@@ -224,6 +224,7 @@ function parseVocalInput(input) {
 	var words = input.split(" ");
 	var foundPiece, piecePos;
 	var foundTarget, foundTargetNum;
+	var start = Date.now();
 	for (var i in words) {
 		for (var k in langMapping[selectedlanguage]){
 			l("searching " + words[i] + " . " + k);
@@ -258,6 +259,8 @@ function parseVocalInput(input) {
 			break;
 		}
 	}
+	var finish = Date.now();
+	l("time elapsed : " + (finish - start));
 
 	l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
 

@@ -50,16 +50,16 @@ function setUpRecognition() {
 				return;
 			}
 
-			l(event);
+			//l(event);
 			
-			for (var i = event.resultIndex; i < event.results.length; ++i) {
-				if (event.results[i].isFinal) {
-					final_transcript += event.results[i][0].transcript;
-				} else {
-					interim_transcript += event.results[i][0].transcript;
-				}
-			}
-			final_transcript = capitalize(final_transcript);
+			//for (var i = event.resultIndex; i < event.results.length; ++i) {
+			//	if (event.results[i].isFinal) {
+					final_transcript = event.results[0][0].transcript;
+			//	} else {
+			//		interim_transcript += event.results[i][0].transcript;
+			//	}
+			//}
+			//final_transcript = capitalize(final_transcript);
 			//final_span.innerHTML = linebreak(final_transcript);
 			//l(linebreak("F "+final_transcript));
 			//l(linebreak("I "+interim_transcript));
