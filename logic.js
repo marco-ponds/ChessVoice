@@ -16,6 +16,9 @@ var isMoving = false;
 	8. update game status
 	9. game over? 	nope, change turn,
 					yep, show winner.
+
+	//TODO
+	add arrocco and strano movimento pedoni quando sono affiancati. (non mi ricordo come si chiama la mossa.)
 	
 */
 
@@ -26,7 +29,7 @@ var Game = {
 		currentTurn = "white";
 		$('#play').on("click", function() {
 			if (!isMoving) {
-				playGame();
+				Game.play();
 			}
 		});
 	},
@@ -40,6 +43,35 @@ var Game = {
 			return;
 		}
 		//if we are here, we want to move a piece
+		var target = to.k;
+		var targetNum = to.n;
+		var p; //we need to store our piece here.
+
+		//if piece is a list of pieces, we have to choose the right piece
+		//We have to apply rules for each type of piece
+
+		//we now want to recognize if this piece can move to its final position
+
+		//if destination is correct, change its position
+		moveTo(p, target, targetNum, function() {
+			//here is where our piece has finished its movement.
+			
+			//check if position is already occupied 
+
+			//if it's occupied by enemy piece, remove it
+
+			//add this move to moves list
+
+			//We have to check if the game is over.
+			//if the game is over prompt user with the winner and ask for new game
+			//if game is over, return
+
+			//at the end we must change turn
+			Game.changeTurn();
+			//setting isMoving to false
+			isMoving = false;
+			//prompt user to hit play button again to start new turn
+		});
 	},
 
 	parseVocalInput : function(input) {
@@ -86,23 +118,31 @@ var Game = {
 		//l("time elapsed : " + (finish - start));
 
 		//l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
+		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)) {
+			//not good input, must repeat
+			Game.repeatInput();
+			return;
+		}
+		//if we are here, input is good, trying to go on.
 		if (currentTurn == "white") {
 			Game.play(white[foundPiece], {k : foundTarget, n : foundTargetNum});
 		} else {
 			Game.play(black[foundPiece], {k : foundTarget, n : foundTargetNum});
 		}
+	},
+
+	repeatInput : function() {
+		//show dialog to user.
+		recognition._start(Game.parseVocalInput);
+		return;
+	},
+
+	changeTurn : function() {
+		currentTurn = (currentTurn == "white") ? "black" : "white";
+		Game.moveCamera(currentTurn);
+	},
+
+	moveCamera : function() {
+		//we must rotate camera to show other turn pieces.
 	}
-}
-
-function playGame() {
-	//we are ready to move
-	//listen to player input
-	recognition._start(parseVocalInput);
-}
-
-
-function parseVocalInput(input) {
-	
-
-	moveTo(white[foundPiece],convertPosition(foundTarget,foundTargetNum));
 }

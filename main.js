@@ -138,7 +138,7 @@ function convertPosition( letter, number ) {
 	};
 }
 
-function moveTo(element, position) {
+function moveTo(element, position, callback) {
 	//storing position inside element
 	element._position = position;
 	var current = {
@@ -151,6 +151,11 @@ function moveTo(element, position) {
 		////console.log("current " + current);
 		element.position.x = current.x;
 		element.position.z = current.z;
+	});
+	t.onComplete(function() {
+		if (!_.isUndefined(callback)) {
+			callback();
+		}
 	});
 	t.start();
 }
