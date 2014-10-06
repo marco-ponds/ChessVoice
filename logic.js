@@ -223,29 +223,131 @@ var Game = {
 **************************************************/
 
 function _validatePawn(from, to) {
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
 	for (var i in window[currentTurn].pawns) {
-		if (window[currentTurn].pawns[i].position) {
-
+		//checking if exist a pawn with this starting location
+		if (_.isEqual(window[currentTurn].pawns[i]._position, f)) {
+			//check if destination is valid
+			/*
+				we should check if our piece can reach its destination
+			*/
+			return {
+				flag : true,
+				data : window[currentTurn].pawns[i]
+			}
 		}
+
+	}
+	return {
+		flag : false,
+		data : undefined
 	}
 }
 
 function _validateRook(from, to) {
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
+	for (var i in window[currentTurn].rooks) {
+		//checking if exist a pawn with this starting location
+		if (_.isEqual(window[currentTurn].rooks[i]._position, f)) {
+			//check if destination is valid
+			/*
+				we should check if our piece can reach its destination
+			*/
+			return {
+				flag : true,
+				data : window[currentTurn].rooks[i]
+			}
+		}
 
+	}
+	return {
+		flag : false,
+		data : undefined
+	}
 }
 
 function _validateKnight(from, to) {
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
+	for (var i in window[currentTurn].knights) {
+		//checking if exist a pawn with this starting location
+		if (_.isEqual(window[currentTurn].knights[i]._position, f)) {
+			//check if destination is valid
+			/*
+				we should check if our piece can reach its destination
+			*/
+			return {
+				flag : true,
+				data : window[currentTurn].knights[i]
+			}
+		}
 
+	}
+	return {
+		flag : false,
+		data : undefined
+	}
 }
 
 function _validateBishop(from, to) {
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
+	for (var i in window[currentTurn].bishops) {
+		//checking if exist a pawn with this starting location
+		if (_.isEqual(window[currentTurn].bishops[i]._position, f)) {
+			//check if destination is valid
+			/*
+				we should check if our piece can reach its destination
+			*/
+			return {
+				flag : true,
+				data : window[currentTurn].bishops[i]
+			}
+		}
 
+	}
+	return {
+		flag : false,
+		data : undefined
+	}
 }
 
 function _validateQueen(from, to) {
-
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
+	if (_.isEqual(window[currentTurn].queen._position, f)) {
+		//check if destination is valid
+		/*
+			we should check if our piece can reach its destination
+		*/
+		return {
+			flag : true,
+			data : window[currentTurn].queen
+		}
+	}
+	return {
+		flag : false,
+		data : undefined
+	}
 }
 
 function _validateKing(from, to) {
-
+	var f = convertPosition(from.k, from.n);
+	var t = convertPosition(to.k, to.n);
+	if (_.isEqual(window[currentTurn].king._position, f)) {
+		//check if destination is valid
+		/*
+			we should check if our piece can reach its destination
+		*/
+		return {
+			flag : true,
+			data : window[currentTurn].king
+		}
+	}
+	return {
+		flag : false,
+		data : undefined
+	}
 }
