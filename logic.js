@@ -49,7 +49,7 @@ var Game = {
 		var targetNum = to.n;
 		var piecePos = from.k;
 		var pieceNum = from.n;
-		var p = Game.recognizePiece(); //we need to store our piece here.
+		var p = Game.isValidPiece(piece.toLowerCase()); //we need to store our piece here.
 
 		//if piece is a list of pieces, we have to choose the right piece
 		//We have to apply rules for each type of piece
@@ -131,10 +131,7 @@ var Game = {
 				break;
 			}
 		}
-		//var finish = Date.now();
-		//l("time elapsed : " + (finish - start));
-
-		//l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
+		//checking if we have found every element
 		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)
 			|| _.isUndefined(foundPos) || _.isUndefined(foundPosNum)) {
 			//not good input, must repeat
@@ -155,22 +152,50 @@ var Game = {
 		return;
 	},
 
-	recognizePiece : function(piece) {
+	recognizePiece : function(piece, from, to) {
 		switch (piece) {
 			case "pawn": {
-
+				var res = _validatePawn(from, to);
+				if (res.flag) {
+					return res.data;
+				} 
+				return undefined;
 			}
 			case "rook": {
-
+				var res = _validateRook(from, to);
+				if (res.flag) {
+					return res.data;
+				}
+				return undefined;
 			}
 			case "bishop": {
-
+				var res = _validateBishop(from, to);
+				if (res.flag) {
+					return res.data;
+				}
+				return undefined;
 			}
 			case "knight": {
-
+				var res = _validateKnight(from, to);
+				if (res.flag) {
+					return res.data;
+				}
+				return undefined;
 			}
-			//default is king or queen
-			default : return piece;
+			case "queen": {
+				var res = _validateQueen(from, to);
+				if (res.flag) {
+					return res.data;
+				}
+				return undefined;
+			}
+			case "king": {
+				var res = _validateKing(from, to);
+				if (res.flag) {
+					return res.data;
+				}
+				return undefined;
+			}
 		}
 	},
 
@@ -182,4 +207,33 @@ var Game = {
 	moveCamera : function() {
 		//we must rotate camera to show other turn pieces.
 	}
+}
+
+
+/**************************************************
+	HELPERS METHOD TO CHECK IF PIECE IS VALID
+**************************************************/
+
+function _validatePawn(from, to) {
+
+}
+
+function _validateRook(from, to) {
+
+}
+
+function _validateKnight(from, to) {
+
+}
+
+function _validateBishop(from, to) {
+
+}
+
+function _validateQueen(from, to) {
+
+}
+
+function _validateKing(from, to) {
+	
 }
