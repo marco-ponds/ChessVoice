@@ -19,8 +19,13 @@ var isMoving = false;
 
 	//TODO
 	add arrocco and strano movimento pedoni quando sono affiancati. (non mi ricordo come si chiama la mossa.)
+	promozione del pedone ad altro pezzo (????)
 
 	si deve dare la possibilità di tornare indeitro con le mosse
+
+	//comandi attualmente riconosciuti
+	*nomepezzo* da A5 a F4
+
 	
 */
 
@@ -235,5 +240,5 @@ function _validateQueen(from, to) {
 }
 
 function _validateKing(from, to) {
-	
+
 }
