@@ -7,6 +7,7 @@ function setUpRecognition() {
 		upgrade();
 	} else {
 		recognition = new webkitSpeechRecognition();
+		recognition.lang = selectedLanguage;
 		recognition.continuous = false;
 		recognition.interimResults = false;
 
@@ -32,6 +33,7 @@ function setUpRecognition() {
 				}
 				ignore_onend = true;
 			}
+			Chess.repeatInput();
 		};
 
 		recognition.onend = function() {

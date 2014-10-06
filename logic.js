@@ -1,4 +1,4 @@
-//main game logic
+//main Chess logic
 var currentTurn = "white";
 var isMoving = false;
 
@@ -29,19 +29,19 @@ var isMoving = false;
 	
 */
 
-var Game = {
+var Chess = {
 	setUp : function() {
 		//Setting up recognition object
 		setUpRecognition();
-		recognition.lang = selectedlanguage;
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
-		$('#play').on("click", function() {
-			if (!isMoving) {
-				Game.play();
-			}
-		});
+		//$('#play').on("click", function() {
+		//	if (!isMoving) {
+				isMoving = true;
+				Chess.play();
+		//	}
+		//});
 	},
 
 	play : function(piece, from, to) {
@@ -49,7 +49,8 @@ var Game = {
 		//listen to player input
 		if (!piece && !to && !from) {
 			//we have to listen to player input
-			recognition._start(Game.parseVocalInput);
+			l("starting recognition");
+			recognition._start(Chess.parseVocalInput);
 			return;
 		}
 		//if we are here, we want to move a piece
@@ -57,7 +58,7 @@ var Game = {
 		var targetNum = to.n;
 		var piecePos = from.k;
 		var pieceNum = from.n;
-		var p = Game.isValidPiece(piece.toLowerCase()); //we need to store our piece here.
+		var p = Chess.isValidPiece(piece.toLowerCase()); //we need to store our piece here.
 
 		//if piece is a list of pieces, we have to choose the right piece
 		//We have to apply rules for each type of piece
@@ -74,12 +75,12 @@ var Game = {
 
 			//add this move to moves list
 
-			//We have to check if the game is over.
-			//if the game is over prompt user with the winner and ask for new game
-			//if game is over, return
+			//We have to check if the Chess is over.
+			//if the Chess is over prompt user with the winner and ask for new Chess
+			//if Chess is over, return
 
 			//at the end we must change turn
-			Game.changeTurn();
+			Chess.changeTurn();
 			//setting isMoving to false
 			isMoving = false;
 			//prompt user to hit play button again to start new turn
@@ -91,7 +92,7 @@ var Game = {
 		var words = input.split(" ");
 		var foundPiece, piecePos;
 		var foundTarget, foundTargetNum;
-		var foundPos, foundPosNum;
+		var foundPos = undefined, foundPosNum = undefined;
 		//var start = Date.now();
 		for (var i in words) {
 			for (var k in langMapping[selectedlanguage]){
@@ -117,6 +118,7 @@ var Game = {
 				if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-1].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
+						l("found letter " + words[i-1]);
 						if (!foundPos) {
 							foundPos = words[i-1].toLowerCase();
 						} else {
@@ -126,10 +128,11 @@ var Game = {
 				} else if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
+						l("found letter " + words[i-2]);
 						if (!foundPos) {
-							foundPos = words[i-1].toLowerCase();
+							foundPos = words[i-2].toLowerCase();
 						} else {
-							foundTarget = words[i-1].toLowerCase();
+							foundTarget = words[i-2].toLowerCase();
 						}						
 					}
 				} 			
@@ -143,20 +146,27 @@ var Game = {
 		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)
 			|| _.isUndefined(foundPos) || _.isUndefined(foundPosNum)) {
 			//not good input, must repeat
-			Game.repeatInput();
+			l("piece not recognized");
+			l(foundTarget);
+			l(foundTargetNum);
+			l(foundPos);
+			l(foundPosNum);
+			Chess.repeatInput();
 			return;
 		}
 		//if we are here, input is good, trying to go on.
 		if (currentTurn == "white") {
-			Game.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			Chess.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		} else {
-			Game.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			Chess.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		}
 	},
 
 	repeatInput : function() {
 		//show dialog to user.
-		recognition._start(Game.parseVocalInput);
+		recognition.stop();
+		setUpRecognition();
+		recognition._start(Chess.parseVocalInput);
 		return;
 	},
 
@@ -209,7 +219,7 @@ var Game = {
 
 	changeTurn : function() {
 		currentTurn = (currentTurn == "white") ? "black" : "white";
-		Game.moveCamera(currentTurn);
+		Chess.moveCamera(currentTurn);
 	},
 
 	moveCamera : function() {

@@ -247,54 +247,8 @@ function onCreate() {
 	setUpBishops();
 	setUpKings();
 	setUpQueens();
-}
 
-function parseVocalInput(input) {
-	recognition.stop();
-	var words = input.split(" ");
-	var foundPiece, piecePos;
-	var foundTarget, foundTargetNum;
-	var start = Date.now();
-	for (var i in words) {
-		for (var k in langMapping[selectedlanguage]){
-			l("searching " + words[i] + " . " + k);
-			if (words[i].toLowerCase() == k) {
-				piecePos = i;
-				foundPiece = langMapping[selectedlanguage][k];
-				break;
-			}
-		}
-		if (foundPiece) break;
-	}
-	//a questo punto dobbiamo cercare di capire la posizione in cui vogliamo spostare il pezzo
-	words = input.split("");
-	for (var i in words) {
-		//se trovo un numero, guardo se la parola prima è una lettera
-		if (!isNaN(words[i])) {
-			foundTargetNum = parseInt(words[i]) < 9 ? parseInt(words[i]) : undefined;
-			if (words[i-1] != " " && words[i-1] != undefined) {
-				if (letters.indexOf(words[i-1].toLowerCase()) != -1) {
-					//abbiamo trovato una delle lettere valide
-					foundTarget = words[i-1].toLowerCase();
-				}
-			} else if (words[i-1] != " " && words[i-1] != undefined) {
-					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
-						//abbiamo trovato una delle lettere valide
-						foundTarget = words[i-2].toLowerCase();
-					}
-			} 			
-		}
-
-		if (foundTarget && foundTargetNum) {
-			break;
-		}
-	}
-	var finish = Date.now();
-	l("time elapsed : " + (finish - start));
-
-	l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
-
-	moveTo(white[foundPiece],convertPosition(foundTarget,foundTargetNum));
+	Chess.setUp();
 }
 
 var jsonCount = 0;
