@@ -19,6 +19,8 @@ var isMoving = false;
 
 	//TODO
 	add arrocco and strano movimento pedoni quando sono affiancati. (non mi ricordo come si chiama la mossa.)
+
+	si deve dare la possibilità di tornare indeitro con le mosse
 	
 */
 
@@ -34,10 +36,10 @@ var Game = {
 		});
 	},
 
-	play : function(piece, to) {
+	play : function(piece, from, to) {
 		//we are ready to move
 		//listen to player input
-		if (!piece && !to) {
+		if (!piece && !to && !from) {
 			//we have to listen to player input
 			recognition._start(Game.parseVocalInput);
 			return;
@@ -45,7 +47,9 @@ var Game = {
 		//if we are here, we want to move a piece
 		var target = to.k;
 		var targetNum = to.n;
-		var p; //we need to store our piece here.
+		var piecePos = from.k;
+		var pieceNum = from.n;
+		var p = Game.recognizePiece(); //we need to store our piece here.
 
 		//if piece is a list of pieces, we have to choose the right piece
 		//We have to apply rules for each type of piece
@@ -79,6 +83,7 @@ var Game = {
 		var words = input.split(" ");
 		var foundPiece, piecePos;
 		var foundTarget, foundTargetNum;
+		var foundPos, foundPosNum;
 		//var start = Date.now();
 		for (var i in words) {
 			for (var k in langMapping[selectedlanguage]){
@@ -96,21 +101,33 @@ var Game = {
 		for (var i in words) {
 			//se trovo un numero, guardo se la parola prima è una lettera
 			if (!isNaN(words[i])) {
-				foundTargetNum = parseInt(words[i]) < 9 ? parseInt(words[i]) : undefined;
+				if (!foundPosNum) {
+					foundPosNum = parseInt(words[i]) < 9 ? parseInt(words[i]) : undefined;
+				} else {
+					foundTargetNum = parseInt(words[i]) < 9 ? parseInt(words[i]) : undefined;
+				}
 				if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-1].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
-						foundTarget = words[i-1].toLowerCase();
+						if (!foundPos) {
+							foundPos = words[i-1].toLowerCase();
+						} else {
+							foundTarget = words[i-1].toLowerCase();
+						}
 					}
 				} else if (words[i-1] != " " && words[i-1] != undefined) {
-						if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
-							//abbiamo trovato una delle lettere valide
-							foundTarget = words[i-2].toLowerCase();
-						}
+					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
+						//abbiamo trovato una delle lettere valide
+						if (!foundPos) {
+							foundPos = words[i-1].toLowerCase();
+						} else {
+							foundTarget = words[i-1].toLowerCase();
+						}						
+					}
 				} 			
 			}
 
-			if (foundTarget && foundTargetNum) {
+			if ((foundTarget && foundTargetNum) && (foundPos && foundTargetNum)) {
 				break;
 			}
 		}
@@ -118,16 +135,17 @@ var Game = {
 		//l("time elapsed : " + (finish - start));
 
 		//l("found " + foundTarget + " - " + foundTargetNum + " foundPiece " + foundPiece);
-		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)) {
+		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)
+			|| _.isUndefined(foundPos) || _.isUndefined(foundPosNum)) {
 			//not good input, must repeat
 			Game.repeatInput();
 			return;
 		}
 		//if we are here, input is good, trying to go on.
 		if (currentTurn == "white") {
-			Game.play(white[foundPiece], {k : foundTarget, n : foundTargetNum});
+			Game.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		} else {
-			Game.play(black[foundPiece], {k : foundTarget, n : foundTargetNum});
+			Game.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		}
 	},
 
@@ -135,6 +153,25 @@ var Game = {
 		//show dialog to user.
 		recognition._start(Game.parseVocalInput);
 		return;
+	},
+
+	recognizePiece : function(piece) {
+		switch (piece) {
+			case "pawn": {
+
+			}
+			case "rook": {
+
+			}
+			case "bishop": {
+
+			}
+			case "knight": {
+
+			}
+			//default is king or queen
+			default : return piece;
+		}
 	},
 
 	changeTurn : function() {
