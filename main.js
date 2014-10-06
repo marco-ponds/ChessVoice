@@ -247,16 +247,6 @@ function onCreate() {
 	setUpBishops();
 	setUpKings();
 	setUpQueens();
-
-	//starting recognition
-	/*
-
-			we should use a different approach, using web workers to unload dom thread
-
-	*/	
-	setUpRecognition();
-	recognition.lang = selectedlanguage;
-	recognition.start();
 }
 
 function parseVocalInput(input) {

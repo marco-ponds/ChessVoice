@@ -31,6 +31,9 @@ var isMoving = false;
 
 var Game = {
 	setUp : function() {
+		//Setting up recognition object
+		setUpRecognition();
+		recognition.lang = selectedlanguage;
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
@@ -220,7 +223,11 @@ var Game = {
 **************************************************/
 
 function _validatePawn(from, to) {
+	for (var i in window[currentTurn].pawns) {
+		if (window[currentTurn].pawns[i].position) {
 
+		}
+	}
 }
 
 function _validateRook(from, to) {
