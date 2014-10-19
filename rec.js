@@ -4,13 +4,15 @@ var final_transcript = "";
 var ignore_onend;
 function setUpRecognition() {
 	if (!('webkitSpeechRecognition' in window)) {
+		l("need to upgrade browser");
 		upgrade();
 	} else {
+		l("browser up to date");
 		recognition = new webkitSpeechRecognition();
-		recognition.lang = selectedLanguage;
-		recognition.continuous = false;
-		recognition.interimResults = false;
-
+		l("lang: " + recognition.lang);
+		recognition.lang = "it-IT";
+		//recognition.continuous = false;
+		//recognition.interimResults = false;
 		recognition.onstart = function(event) {
 			recognizing = true;
 			start_timestamp = event.timeStamp;
@@ -33,7 +35,7 @@ function setUpRecognition() {
 				}
 				ignore_onend = true;
 			}
-			Chess.repeatInput();
+			//Chess.repeatInput();
 		};
 
 		recognition.onend = function() {
@@ -56,7 +58,7 @@ function setUpRecognition() {
 				recognition.callback(final_transcript);
 			}
 		};
-
+		l("about to setup recognition._start");
 		recognition._start = function(callback) {
 			recognition.callback = callback;
 			recognition.start();

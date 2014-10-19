@@ -32,16 +32,21 @@ var isMoving = false;
 var Chess = {
 	setUp : function() {
 		//Setting up recognition object
+		l("calling setup recognition");
 		setUpRecognition();
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
 		//$('#play').on("click", function() {
 		//	if (!isMoving) {
-				isMoving = true;
-				Chess.play();
+				//Chess.playClickHandler();
 		//	}
 		//});
+	},
+
+	playClickHandler : function() {
+		isMoving = true;
+		Chess.play();
 	},
 
 	play : function(piece, from, to) {
