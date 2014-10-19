@@ -1,14 +1,20 @@
+@font-face {
+    font-family: "BebasNeue";
+    src: url(font/BebasNeue.otf);
+}
+
 body {
     background-color: #aca5a5;
 }
 
-#console {
+#gameContainer {
     position : absolute;
-    height : 500px;
-    width: 500px;
-    background:white;
-    border: 1px solid black;
-    
+    height : 100%;
+    width: 100%;
+    margin:0;
+    top:0;
+    left:0;
+    padding:0
 }
 
 canvas{
@@ -21,4 +27,17 @@ canvas{
 	left:0;
 }
 
+#gui {
+	position:absolute;
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:20px;
+}
+
+#gametitle {
+	font-family: "BebasNeue";
+	font-size: 120px;
+	color: white;
+}
 
