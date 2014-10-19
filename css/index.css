@@ -84,18 +84,32 @@ canvas{
 	float:right;
 	margin: 0;
 	width:300px;
+	margin-top: 20px;
 }
 
 #right_container * {
 	position: relative;
-	float:left;
+	float: right;
 	width:100%;
+	text-align: right;
 }
 
 #moves_list {
+	font-size: 24px;
+	max-height: 300px;
+	overflow-y: auto;
+	/* padding-left: 22px; */
+	/* float: right; */
+	/* position: relative; */
+	/* margin: 0; */
+	margin-right: 40px;
+}
+
+#moves_listTitle {
 	font-size:24px;
+	margin-right: 40px;
 }
 
 #moves_list li {
-	
+    list-style: none;
 }
