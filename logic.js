@@ -269,6 +269,14 @@ function _validatePawn(from, to) {
 			/*
 				we should check if our piece can reach its destination
 			*/
+			var pawn = window[currentTurn].pawns[i];
+			//i pedoni vanno solo dritto di uno o al massimo due posizioni
+			//vanno avanti di due solo se partono dalla loro posizione iniziale
+			//TODO
+			/*
+				complete check for pawn both for black and white player.
+				different coords to be considered
+			*/
 			return {
 				flag : true,
 				data : window[currentTurn].pawns[i]
