@@ -37,11 +37,11 @@ var Chess = {
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
-		//$('#play').on("click", function() {
-		//	if (!isMoving) {
-				//Chess.playClickHandler();
-		//	}
-		//});
+		$('#play').on("click", function() {
+			if (!isMoving) {
+				Chess.playClickHandler();
+			}
+		});
 	},
 
 	playClickHandler : function() {
