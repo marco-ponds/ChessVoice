@@ -22,7 +22,7 @@ function onLeapDeviceDisconnected() {
 }
 
 
-var board, cube, bishop, skyBox;
+var board, bishop, skyBox;
 var boardTexturesKeys = ["plain", "wood"];
 var boardTextures = {
 	"plain" : "img/chessboard.gif",
@@ -169,9 +169,11 @@ function changeBoardTexture() {
 
 var angle = 0, angle_step = 0.001;
 function onCreate() {
-	core.camera.position.y = 8;
-	core.camera.position.z = 12;
-	core.camera.rotation.x = -0.5;
+	core.camera.position.y = 7;//8;
+	core.camera.position.z = 11;//12;
+	//core.camera.rotation.x = -0.5;
+	core.camera.rotation.set(0,0,0);
+	core.camera.lookAt(new THREE.Vector3(0,0,0));
 
 	core.camera._render = function() {
 		/*this.position.x = Math.cos(angle)*12;
@@ -208,29 +210,31 @@ function onCreate() {
 
 	//creating background
 	var back = new THREE.Mesh(new THREE.PlaneGeometry(16,16), new THREE.MeshBasicMaterial({color:0x6e859f}));
-	back.scale.set(20,20,20);
-	back.position.z = -10;
+	back.scale.set(100,100,100);
+	back.position.z = -20;
 	back.overdraw = true;
 	//back.rotation.y = Math.PI / 2; //90 degrees
 	core.add(back);
 	back._render = function() {}
 
-	//var geometry = new THREE.SphereGeometry(3000, 60, 40);
-	//var uniforms = {
-	//  texture: { type: 't', value: THREE.ImageUtils.loadTexture('img/skyBox.jpg') }
-	//};
+	//creating background
+	var back2 = new THREE.Mesh(new THREE.PlaneGeometry(16,16), new THREE.MeshBasicMaterial({color:0x6e859f, side:THREE.DoubleSide}));
+	back2.scale.set(100,100,100);
+	back2.position.z = 20;
+	back2.overdraw = true;
+	//back2.rotation.y = Math.PI / 2; //90 degrees
+	core.add(back2);
+	back2._render = function() {}
 
-	//var material = new THREE.ShaderMaterial( {
-	//	uniforms:       uniforms,
-	//	vertexShader:   document.getElementById('sky-vertex').textContent,
-	//	fragmentShader: document.getElementById('sky-fragment').textContent
-	//});
-
-	//skyBox = new THREE.Mesh(geometry, material);
-	//skyBox.scale.set(-1, 1, 1);
-	//skyBox.rotation.order = 'XZY';
-	//skyBox.renderDepth = 1000.0;
-	//core.add(skyBox);
+	//creating bottom
+	var bottom = new THREE.Mesh(new THREE.PlaneGeometry(16,16), new THREE.MeshBasicMaterial({color:0x6e859f, side:THREE.DoubleSide}));
+	bottom.scale.set(100,100,100);
+	bottom.overdraw = true;
+	bottom.position.y = -5;
+	bottom.rotation.x = Math.PI/2;
+	//bottom.rotation.y = Math.PI / 2; //90 degrees
+	core.add(bottom);
+	bottom._render = function() {}
 
 	/*
 		TO DO LIST

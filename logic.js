@@ -63,33 +63,37 @@ var Chess = {
 		var targetNum = to.n;
 		var piecePos = from.k;
 		var pieceNum = from.n;
-		var p = Chess.isValidPiece(piece.toLowerCase()); //we need to store our piece here.
-
 		//if piece is a list of pieces, we have to choose the right piece
 		//We have to apply rules for each type of piece
 
 		//we now want to recognize if this piece can move to its final position
+		var p = Chess.isValidPiece(piece.toLowerCase(), from, to); //we need to store our piece here.
+		if (!p) {
+			//something wrong with our piece
+			Chess.repeatInput();
+		} else {
+			//if destination is correct, change its position
+			var move = symbolsMap[currentTurn][piece.toLowerCase()] + " from " + from.k + "" + from.n + " to " + to.k + "" + to.n; 
+			moveTo(p, target, targetNum, function() {
+				//here is where our piece has finished its movement.
+				
+				//check if position is already occupied 
 
-		//if destination is correct, change its position
-		moveTo(p, target, targetNum, function() {
-			//here is where our piece has finished its movement.
-			
-			//check if position is already occupied 
+				//if it's occupied by enemy piece, remove it
 
-			//if it's occupied by enemy piece, remove it
+				//add this move to moves list
 
-			//add this move to moves list
+				//We have to check if the Chess is over.
+				//if the Chess is over prompt user with the winner and ask for new Chess
+				//if Chess is over, return
 
-			//We have to check if the Chess is over.
-			//if the Chess is over prompt user with the winner and ask for new Chess
-			//if Chess is over, return
-
-			//at the end we must change turn
-			Chess.changeTurn();
-			//setting isMoving to false
-			isMoving = false;
-			//prompt user to hit play button again to start new turn
-		});
+				//at the end we must change turn
+				Chess.changeTurn();
+				//setting isMoving to false
+				isMoving = false;
+				//prompt user to hit play button again to start new turn
+			});
+		}
 	},
 
 	parseVocalInput : function(input) {
@@ -175,7 +179,7 @@ var Chess = {
 		return;
 	},
 
-	recognizePiece : function(piece, from, to) {
+	isValidPiece : function(piece, from, to) {
 		switch (piece) {
 			case "pawn": {
 				var res = _validatePawn(from, to);
@@ -224,11 +228,29 @@ var Chess = {
 
 	changeTurn : function() {
 		currentTurn = (currentTurn == "white") ? "black" : "white";
+		$("#currentRound").removeClass().addClass(currentTurn).text(currentTurn);
 		Chess.moveCamera(currentTurn);
 	},
 
-	moveCamera : function() {
+	moveCamera : function(turn) {
 		//we must rotate camera to show other turn pieces.
+		//storing position inside element
+		//core.camera._position = core.camera.position;
+		//position = 
+		var current = {
+			x : core.camera.position.x,
+			z : core.camera.position.z
+		};
+		var destinationZ = (turn == "white") ? 11 : -11;
+		var t = new TWEEN.Tween(current).to({x : 0, z: destinationZ}, 2500);
+		t.easing(TWEEN.Easing.Exponential.EaseIn);
+		t.onUpdate(function() {
+			////console.log("current " + current);
+			core.camera.position.x = current.x;
+			core.camera.position.z = current.z;
+			core.camera.lookAt(new THREE.Vector3(0,0,0));
+		});
+		t.start();
 	}
 }
 
