@@ -169,7 +169,7 @@ function changeBoardTexture() {
 
 var angle = 0, angle_step = 0.001;
 function onCreate() {
-	core.camera.position.y = 7;//8;
+	core.camera.position.y = 7.5;//8;
 	core.camera.position.z = 11;//12;
 	//core.camera.rotation.x = -0.5;
 	core.camera.rotation.set(0,0,0);

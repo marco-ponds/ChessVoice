@@ -46,6 +46,10 @@ canvas{
 	font-family: "BebasNeue";
 	color: white;
 }
+#wut {
+	margin-top: 32px;
+	margin-left: 56%;
+}
 
 #play {
 	border: 2px solid white;

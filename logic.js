@@ -73,7 +73,7 @@ var Chess = {
 			Chess.repeatInput();
 		} else {
 			//if destination is correct, change its position
-			var move = symbolsMap[currentTurn][piece.toLowerCase()] + " from " + from.k + "" + from.n + " to " + to.k + "" + to.n; 
+			var move = "<li>" + symbolsMap[currentTurn][piece.toLowerCase()] + " from " + from.k + "" + from.n + " to " + to.k + "" + to.n + "</li>"; 
 			moveTo(p, target, targetNum, function() {
 				//here is where our piece has finished its movement.
 				
