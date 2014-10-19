@@ -5,6 +5,10 @@
 
 body {
     background-color: #aca5a5;
+    background-color: rgb(255, 255, 255);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
 }
 
 #gameContainer {
@@ -33,11 +37,65 @@ canvas{
 	width:100%;
 	margin:0;
 	padding:20px;
-}
-
-#gametitle {
 	font-family: "BebasNeue";
-	font-size: 120px;
 	color: white;
 }
 
+#left_container {
+	height: 300px;
+	width: 300px;
+	margin: 0;
+	position: absolute;
+}
+
+#left_container * {
+	position:relative;
+	float:left;
+	width: 100%;
+}
+
+#gametitle {
+	font-size: 120px;
+	color: white;
+	margin-bottom: 80px;
+}
+
+#currentRoundTitle {
+	letter-spacing: 2px;
+	font-size: 16px;
+}
+
+.white {
+	font-size: 80px;
+	color: white;
+	content: "white";
+	margin: 0;
+	padding: 0;
+}
+
+.black {
+	font-size: 80px;
+	color: black;
+	content: "black";
+}
+
+#right_container {
+	height: 300px;
+	float:right;
+	margin: 0;
+	width:300px;
+}
+
+#right_container * {
+	position: relative;
+	float:left;
+	width:100%;
+}
+
+#moves_list {
+	font-size:24px;
+}
+
+#moves_list li {
+	
+}
