@@ -1,10 +1,10 @@
 //main Chess logic
-var currentTurn = "white";
-var isMoving = false;
+
 
 /*
 
-	chess game logic
+	CHESS GAME LOGIC
+	IMPLEMENTATION OF CHESS CLASS using classy.js
 
 	1. first player to move is white
 	2. parsing player input
@@ -29,7 +29,14 @@ var isMoving = false;
 	
 */
 
-var Chess = {
+Class("Chess", {
+
+	Chess : function() {
+		//main constructor
+		this.currentTurn = "white";
+		this.isMoving = false;
+	},
+
 	setUp : function() {
 		//Setting up recognition object
 		l("calling setup recognition");
@@ -38,15 +45,15 @@ var Chess = {
 		//setting currentTurn to white.
 		currentTurn = "white";
 		$('#play').on("click", function() {
-			if (!isMoving) {
-				Chess.playClickHandler();
+			if (!this.isMoving) {
+				this.playClickHandler();
 			}
 		});
 	},
 
 	playClickHandler : function() {
 		isMoving = true;
-		Chess.play();
+		this.play();
 	},
 
 	play : function(piece, from, to) {
@@ -55,7 +62,7 @@ var Chess = {
 		if (!piece && !to && !from) {
 			//we have to listen to player input
 			l("starting recognition");
-			recognition._start(Chess.parseVocalInput);
+			recognition._start(this.parseVocalInput);
 			return;
 		}
 		//if we are here, we want to move a piece
@@ -67,10 +74,10 @@ var Chess = {
 		//We have to apply rules for each type of piece
 
 		//we now want to recognize if this piece can move to its final position
-		var p = Chess.isValidPiece(piece.toLowerCase(), from, to); //we need to store our piece here.
+		var p = this.isValidPiece(piece.toLowerCase(), from, to); //we need to store our piece here.
 		if (!p) {
 			//something wrong with our piece
-			Chess.repeatInput();
+			this.repeatInput();
 		} else {
 			//if destination is correct, change its position
 			var move = "<li>" + symbolsMap[currentTurn][piece.toLowerCase()] + " from " + from.k + "" + from.n + " to " + to.k + "" + to.n + "</li>"; 
@@ -88,9 +95,9 @@ var Chess = {
 				//if Chess is over, return
 
 				//at the end we must change turn
-				Chess.changeTurn();
+				this.changeTurn();
 				//setting isMoving to false
-				isMoving = false;
+				this.isMoving = false;
 				//prompt user to hit play button again to start new turn
 			});
 		}
@@ -160,14 +167,14 @@ var Chess = {
 			l(foundTargetNum);
 			l(foundPos);
 			l(foundPosNum);
-			Chess.repeatInput();
+			this.repeatInput();
 			return;
 		}
 		//if we are here, input is good, trying to go on.
 		if (currentTurn == "white") {
-			Chess.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			this.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		} else {
-			Chess.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			this.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		}
 	},
 
@@ -175,7 +182,7 @@ var Chess = {
 		//show dialog to user.
 		recognition.stop();
 		setUpRecognition();
-		recognition._start(Chess.parseVocalInput);
+		recognition._start(this.parseVocalInput);
 		return;
 	},
 
@@ -229,7 +236,7 @@ var Chess = {
 	changeTurn : function() {
 		currentTurn = (currentTurn == "white") ? "black" : "white";
 		$("#currentRound").removeClass().addClass(currentTurn).text(currentTurn);
-		Chess.moveCamera(currentTurn);
+		this.moveCamera(currentTurn);
 	},
 
 	moveCamera : function(turn) {
@@ -252,7 +259,7 @@ var Chess = {
 		});
 		t.start();
 	}
-}
+});
 
 
 /**************************************************
