@@ -21,6 +21,7 @@ function onLeapDeviceDisconnected() {
 	l("Leap Device disconnected.", "i");
 }
 
+var chess;
 
 var board, bishop, skyBox;
 var boardTexturesKeys = ["plain", "wood"];
@@ -252,7 +253,9 @@ function onCreate() {
 	setUpKings();
 	setUpQueens();
 
-	Chess.setUp();
+	//creating a new instance of chess object.
+	chess = new Chess();
+	chess.setUp();
 }
 
 var jsonCount = 0;

@@ -234,9 +234,9 @@ Class("Chess", {
 	},
 
 	changeTurn : function() {
-		currentTurn = (currentTurn == "white") ? "black" : "white";
-		$("#currentRound").removeClass().addClass(currentTurn).text(currentTurn);
-		this.moveCamera(currentTurn);
+		this.currentTurn = (this.currentTurn == "white") ? "black" : "white";
+		$("#currentRound").removeClass().addClass(this.currentTurn).text(this.currentTurn);
+		this.moveCamera(this.currentTurn);
 	},
 
 	moveCamera : function(turn) {
@@ -269,14 +269,14 @@ Class("Chess", {
 function _validatePawn(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	for (var i in window[currentTurn].pawns) {
+	for (var i in window[chess.currentTurn].pawns) {
 		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[currentTurn].pawns[i]._position, f)) {
+		if (_.isEqual(window[chess.currentTurn].pawns[i]._position, f)) {
 			//check if destination is valid
 			/*
 				we should check if our piece can reach its destination
 			*/
-			var pawn = window[currentTurn].pawns[i];
+			var pawn = window[chess.currentTurn].pawns[i];
 			//i pedoni vanno solo dritto di uno o al massimo due posizioni
 			//vanno avanti di due solo se partono dalla loro posizione iniziale
 			//TODO
@@ -284,9 +284,14 @@ function _validatePawn(from, to) {
 				complete check for pawn both for black and white player.
 				different coords to be considered
 			*/
+			if (chess.currentTurn == "white") {
+
+			} else {
+				
+			}
 			return {
 				flag : true,
-				data : window[currentTurn].pawns[i]
+				data : window[chess.currentTurn].pawns[i]
 			}
 		}
 
@@ -300,16 +305,16 @@ function _validatePawn(from, to) {
 function _validateRook(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	for (var i in window[currentTurn].rooks) {
+	for (var i in window[chess.currentTurn].rooks) {
 		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[currentTurn].rooks[i]._position, f)) {
+		if (_.isEqual(window[chess.currentTurn].rooks[i]._position, f)) {
 			//check if destination is valid
 			/*
 				we should check if our piece can reach its destination
 			*/
 			return {
 				flag : true,
-				data : window[currentTurn].rooks[i]
+				data : window[chess.currentTurn].rooks[i]
 			}
 		}
 
@@ -323,16 +328,16 @@ function _validateRook(from, to) {
 function _validateKnight(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	for (var i in window[currentTurn].knights) {
+	for (var i in window[chess.currentTurn].knights) {
 		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[currentTurn].knights[i]._position, f)) {
+		if (_.isEqual(window[chess.currentTurn].knights[i]._position, f)) {
 			//check if destination is valid
 			/*
 				we should check if our piece can reach its destination
 			*/
 			return {
 				flag : true,
-				data : window[currentTurn].knights[i]
+				data : window[chess.currentTurn].knights[i]
 			}
 		}
 
@@ -346,16 +351,16 @@ function _validateKnight(from, to) {
 function _validateBishop(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	for (var i in window[currentTurn].bishops) {
+	for (var i in window[chess.currentTurn].bishops) {
 		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[currentTurn].bishops[i]._position, f)) {
+		if (_.isEqual(window[chess.currentTurn].bishops[i]._position, f)) {
 			//check if destination is valid
 			/*
 				we should check if our piece can reach its destination
 			*/
 			return {
 				flag : true,
-				data : window[currentTurn].bishops[i]
+				data : window[chess.currentTurn].bishops[i]
 			}
 		}
 
@@ -369,14 +374,14 @@ function _validateBishop(from, to) {
 function _validateQueen(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	if (_.isEqual(window[currentTurn].queen._position, f)) {
+	if (_.isEqual(window[chess.currentTurn].queen._position, f)) {
 		//check if destination is valid
 		/*
 			we should check if our piece can reach its destination
 		*/
 		return {
 			flag : true,
-			data : window[currentTurn].queen
+			data : window[chess.currentTurn].queen
 		}
 	}
 	return {
@@ -388,14 +393,14 @@ function _validateQueen(from, to) {
 function _validateKing(from, to) {
 	var f = convertPosition(from.k, from.n);
 	var t = convertPosition(to.k, to.n);
-	if (_.isEqual(window[currentTurn].king._position, f)) {
+	if (_.isEqual(window[chess.currentTurn].king._position, f)) {
 		//check if destination is valid
 		/*
 			we should check if our piece can reach its destination
 		*/
 		return {
 			flag : true,
-			data : window[currentTurn].king
+			data : window[chess.currentTurn].king
 		}
 	}
 	return {
