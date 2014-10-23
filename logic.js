@@ -44,7 +44,7 @@ Class("Chess", {
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
-		this.validator = new Validator();
+		this.validator = new Validator(this);
 
 		$('#play').on("click", function() {
 			if (!this.isMoving) {

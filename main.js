@@ -354,6 +354,27 @@ function preload(callback) {
 	//console.log("after 6");
 }
 
+function displayMessage(message, type) {
+	switch(type) {
+		case "error": {
+			console.err(message);
+		}
+
+		case "warning": {
+			console.warn(message)
+		}
+
+		case "info": {
+			console.info(message)
+		}
+
+		default {
+			console.log(message);
+		}
+
+	}
+}
+
 function handleBoardRender(obj) {
 }
 
@@ -368,3 +389,4 @@ input.keyup = function(event) {
 function setUpLeap() {
 
 }
+

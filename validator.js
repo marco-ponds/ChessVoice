@@ -1,6 +1,20 @@
 Class("Validator", {
-	Validator : function() {
+	Validator : function(game) {
+		this.game = game;
+	},
 
+	traverse : function(jsonObj, pos) {
+		var found = false;
+		$.each(obj, function(k, v) {
+			if (obj[k] instanceof Array) {
+				$.each(obj[k], function(k,v) {
+					if (_.isEqual(v._position, pos)) found = true;
+				});
+			} else {
+				if (_.isEqual(obj[k]._position, pos)) found = true;
+			}
+		});
+		return found;
 	},
 
 	/**************************************************
@@ -27,21 +41,40 @@ Class("Validator", {
 					complete check for pawn both for black and white player.
 					different coords to be considered
 				*/
+				var convertedPos = convertCoordsToPosition(pawn._position);
 				if (chess.currentTurn == "white") {
 					//controllo se sono nella posizione iniziale. (il numero deve essere 1)
-					var convertedPos = convertCoordsToPosition(pawn._position);
 					if (convertedPos.n == 1) {
 						//this pawn is in first position //never moved
 						if (to.k != convertedPos.k) return null_piece; //different letter = impossible
 						if (to.n > (convertedPos.n+2)) return null_piece; //trying to go further than 2 moves
-						//conditions are enough to move?
-					} else {
+						//we must check that there is nobody between
+						var check_pos = convertedPos.n+1;
+						while (check_pos <= to.n) {
+							if (this.traverse(window[this.game.currentTurn], convertPosition(to.k, check_pos))) {
+								//if we are here, we found something on the path
+								return null_piece;
+							}
+							check_pos++;
+						}
+						//conditions are enough to move? i think so
+						return valid_piece;
+					} else{
 						//this pawn already moved
 						if (to.k != convertedPos.k) return null_piece;
 						if (to.n > (convertedPos.n+1)) return null_piece;
+						//we only have to check the next position
+						if (this.traverse(window[this.game.currentTurn], convertPosition(to.k, to.n))) return null_piece;
+
+						return valid_piece;
 					}
 				} else {
+					//black is moving
+					if (convertPosition.n == 6) {
 
+					} else {
+						
+					}
 				}
 				return {
 					flag : true,
@@ -163,5 +196,5 @@ Class("Validator", {
 			data : undefined
 		}
 	}
-	
+
 });
