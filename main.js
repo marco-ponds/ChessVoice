@@ -128,7 +128,7 @@ var recognition, recognizing = false;
 var selectedlanguage = "it-IT";
 var languages = ["it-IT", "en-GB", "en-US"];
 
-function convertPosition( letter, number ) {
+function convertPosition(letter, number) {
 	//if we have a1, we must give
 	var _x = (zeroPosition.x) + (letters.indexOf(letter) * step);
 	var _z = (zeroPosition.z) - (numbers.indexOf(number) * step);
@@ -137,6 +137,15 @@ function convertPosition( letter, number ) {
 		y : 0,
 		z : _z 
 	};
+}
+
+function converCoordsToPosition(pos) {
+	var letter_pos = (pos.x - zeroPosition.x)/step;
+	var number_pos = (zeroPosition.z - pos.z)/step;
+	return {
+		k : letters[letter_pos],
+		n : numbers[number_pos]
+	}
 }
 
 function moveTo(element, position, callback) {

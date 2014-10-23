@@ -44,6 +44,8 @@ Class("Chess", {
 		//adding click listener to start button
 		//setting currentTurn to white.
 		currentTurn = "white";
+		this.validator = new Validator();
+
 		$('#play').on("click", function() {
 			if (!this.isMoving) {
 				this.playClickHandler();
@@ -189,42 +191,42 @@ Class("Chess", {
 	isValidPiece : function(piece, from, to) {
 		switch (piece) {
 			case "pawn": {
-				var res = _validatePawn(from, to);
+				var res = this.validator._validatePawn(from, to);
 				if (res.flag) {
 					return res.data;
 				} 
 				return undefined;
 			}
 			case "rook": {
-				var res = _validateRook(from, to);
+				var res = this.validator._validateRook(from, to);
 				if (res.flag) {
 					return res.data;
 				}
 				return undefined;
 			}
 			case "bishop": {
-				var res = _validateBishop(from, to);
+				var res = this.validator._validateBishop(from, to);
 				if (res.flag) {
 					return res.data;
 				}
 				return undefined;
 			}
 			case "knight": {
-				var res = _validateKnight(from, to);
+				var res = this.validator._validateKnight(from, to);
 				if (res.flag) {
 					return res.data;
 				}
 				return undefined;
 			}
 			case "queen": {
-				var res = _validateQueen(from, to);
+				var res = this.validator._validateQueen(from, to);
 				if (res.flag) {
 					return res.data;
 				}
 				return undefined;
 			}
 			case "king": {
-				var res = _validateKing(from, to);
+				var res = this.validator._validateKing(from, to);
 				if (res.flag) {
 					return res.data;
 				}
@@ -260,151 +262,3 @@ Class("Chess", {
 		t.start();
 	}
 });
-
-
-/**************************************************
-	HELPERS METHOD TO CHECK IF PIECE IS VALID
-**************************************************/
-
-function _validatePawn(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	for (var i in window[chess.currentTurn].pawns) {
-		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[chess.currentTurn].pawns[i]._position, f)) {
-			//check if destination is valid
-			/*
-				we should check if our piece can reach its destination
-			*/
-			var pawn = window[chess.currentTurn].pawns[i];
-			//i pedoni vanno solo dritto di uno o al massimo due posizioni
-			//vanno avanti di due solo se partono dalla loro posizione iniziale
-			//TODO
-			/*
-				complete check for pawn both for black and white player.
-				different coords to be considered
-			*/
-			if (chess.currentTurn == "white") {
-
-			} else {
-				
-			}
-			return {
-				flag : true,
-				data : window[chess.currentTurn].pawns[i]
-			}
-		}
-
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
-
-function _validateRook(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	for (var i in window[chess.currentTurn].rooks) {
-		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[chess.currentTurn].rooks[i]._position, f)) {
-			//check if destination is valid
-			/*
-				we should check if our piece can reach its destination
-			*/
-			return {
-				flag : true,
-				data : window[chess.currentTurn].rooks[i]
-			}
-		}
-
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
-
-function _validateKnight(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	for (var i in window[chess.currentTurn].knights) {
-		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[chess.currentTurn].knights[i]._position, f)) {
-			//check if destination is valid
-			/*
-				we should check if our piece can reach its destination
-			*/
-			return {
-				flag : true,
-				data : window[chess.currentTurn].knights[i]
-			}
-		}
-
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
-
-function _validateBishop(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	for (var i in window[chess.currentTurn].bishops) {
-		//checking if exist a pawn with this starting location
-		if (_.isEqual(window[chess.currentTurn].bishops[i]._position, f)) {
-			//check if destination is valid
-			/*
-				we should check if our piece can reach its destination
-			*/
-			return {
-				flag : true,
-				data : window[chess.currentTurn].bishops[i]
-			}
-		}
-
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
-
-function _validateQueen(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	if (_.isEqual(window[chess.currentTurn].queen._position, f)) {
-		//check if destination is valid
-		/*
-			we should check if our piece can reach its destination
-		*/
-		return {
-			flag : true,
-			data : window[chess.currentTurn].queen
-		}
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
-
-function _validateKing(from, to) {
-	var f = convertPosition(from.k, from.n);
-	var t = convertPosition(to.k, to.n);
-	if (_.isEqual(window[chess.currentTurn].king._position, f)) {
-		//check if destination is valid
-		/*
-			we should check if our piece can reach its destination
-		*/
-		return {
-			flag : true,
-			data : window[chess.currentTurn].king
-		}
-	}
-	return {
-		flag : false,
-		data : undefined
-	}
-}
