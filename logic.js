@@ -45,17 +45,13 @@ Class("Chess", {
 		//setting currentTurn to white.
 		currentTurn = "white";
 		this.validator = new Validator(this);
-
-		$('#play').on("click", function() {
-			if (!this.isMoving) {
-				this.playClickHandler();
-			}
-		});
 	},
 
 	playClickHandler : function() {
-		isMoving = true;
-		this.play();
+		if (!this.isMoving) {
+			isMoving = true;
+			this.play();
+		}
 	},
 
 	play : function(piece, from, to) {
@@ -114,10 +110,12 @@ Class("Chess", {
 		//var start = Date.now();
 		for (var i in words) {
 			for (var k in langMapping[selectedlanguage]){
-				l("searching " + words[i] + " . " + k);
+				console.log("searching " + words[i] + " . " + k);
 				if (words[i].toLowerCase() == k) {
 					piecePos = i;
 					foundPiece = langMapping[selectedlanguage][k];
+					//dovremmo rimuoverlo dall'array
+					words.pop(i);
 					break;
 				}
 			}
@@ -125,6 +123,7 @@ Class("Chess", {
 		}
 		//a questo punto dobbiamo cercare di capire la posizione in cui vogliamo spostare il pezzo
 		words = input.split("");
+		console.log(words);
 		for (var i in words) {
 			//se trovo un numero, guardo se la parola prima è una lettera
 			if (!isNaN(words[i])) {
@@ -136,7 +135,7 @@ Class("Chess", {
 				if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-1].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
-						l("found letter " + words[i-1]);
+						console.log("found letter " + words[i-1]);
 						if (!foundPos) {
 							foundPos = words[i-1].toLowerCase();
 						} else {
@@ -146,7 +145,7 @@ Class("Chess", {
 				} else if (words[i-1] != " " && words[i-1] != undefined) {
 					if (letters.indexOf(words[i-2].toLowerCase()) != -1) {
 						//abbiamo trovato una delle lettere valide
-						l("found letter " + words[i-2]);
+						console.log("found letter2 " + words[i-2]);
 						if (!foundPos) {
 							foundPos = words[i-2].toLowerCase();
 						} else {
@@ -164,19 +163,19 @@ Class("Chess", {
 		if (_.isUndefined(foundTarget) || _.isUndefined(foundTargetNum) || _.isUndefined(foundPiece)
 			|| _.isUndefined(foundPos) || _.isUndefined(foundPosNum)) {
 			//not good input, must repeat
-			l("piece not recognized");
-			l(foundTarget);
-			l(foundTargetNum);
-			l(foundPos);
-			l(foundPosNum);
-			this.repeatInput();
+			console.log("piece not recognized");
+			console.log(foundTarget);
+			console.log(foundTargetNum);
+			console.log(foundPos);
+			console.log(foundPosNum);
+			chess.repeatInput();
 			return;
 		}
 		//if we are here, input is good, trying to go on.
 		if (currentTurn == "white") {
-			this.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			chess.play(white[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		} else {
-			this.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
+			chess.play(black[foundPiece], {k: foundPos, n: foundPosNum}, {k: foundTarget, n: foundTargetNum});
 		}
 	},
 
@@ -184,7 +183,7 @@ Class("Chess", {
 		//show dialog to user.
 		recognition.stop();
 		setUpRecognition();
-		recognition._start(this.parseVocalInput);
+		recognition._start(chess.parseVocalInput);
 		return;
 	},
 

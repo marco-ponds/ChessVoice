@@ -265,6 +265,9 @@ function onCreate() {
 	//creating a new instance of chess object.
 	chess = new Chess();
 	chess.setUp();
+	$('#play').on("click", function() {
+		chess.playClickHandler();
+	});
 }
 
 var jsonCount = 0;
