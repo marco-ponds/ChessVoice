@@ -71,9 +71,28 @@ Class("Validator", {
 				} else {
 					//black is moving
 					if (convertPosition.n == 6) {
-
+						//this pawn is in first position, never moved
+						if (to.k != convertedPosition.k) return null_piece;
+						if (to.n < (convertedPosition-2)) return null_piece;
+						//we must check that there is nobody between
+						var check_pos = convertedPos.n-1;
+						while (check_pos >= to.n) {
+							if (this.traverse(window[this.game.currentTurn], convertPosition(to.k, check_pos))) {
+								//if we are here, we found something on the path
+								return null_piece;
+							}
+							check_pos -= 1;
+						}
+						//conditions are enough to move? i think so
+						return valid_piece;
 					} else {
-						
+						//this pawn already moved
+						if (to.k != convertedPos.k) return null_piece;
+						if (to.n < (convertedPos.n-1)) return null_piece;
+						//we only have to check the next position
+						if (this.traverse(window[this.game.currentTurn], convertPosition(to.k, to.n))) return null_piece;
+
+						return valid_piece;
 					}
 				}
 				return {
