@@ -3,7 +3,7 @@ Class("Validator", {
 		this.game = game;
 	},
 
-	traverse : function(jsonObj, pos) {
+	traverse : function(obj, pos) {
 		var found = false;
 		$.each(obj, function(k, v) {
 			if (obj[k] instanceof Array) {
@@ -26,6 +26,10 @@ Class("Validator", {
 		var t = convertPosition(to.k, to.n);
 		for (var i in window[chess.currentTurn].pawns) {
 			//checking if exist a pawn with this starting location
+			console.log(i);
+			console.log(window[chess.currentTurn].pawns[i]._position);
+			console.log(f);
+			console.log("----------------------------------------");
 			if (_.isEqual(window[chess.currentTurn].pawns[i]._position, f)) {
 				//check if destination is valid
 				/*
@@ -44,7 +48,7 @@ Class("Validator", {
 				var convertedPos = convertCoordsToPosition(pawn._position);
 				if (chess.currentTurn == "white") {
 					//controllo se sono nella posizione iniziale. (il numero deve essere 1)
-					if (convertedPos.n == 1) {
+					if (convertedPos.n == 2) {
 						//this pawn is in first position //never moved
 						if (to.k != convertedPos.k) return null_piece; //different letter = impossible
 						if (to.n > (convertedPos.n+2)) return null_piece; //trying to go further than 2 moves
@@ -70,7 +74,7 @@ Class("Validator", {
 					}
 				} else {
 					//black is moving
-					if (convertPosition.n == 6) {
+					if (convertPosition.n == 7) {
 						//this pawn is in first position, never moved
 						if (to.k != convertedPosition.k) return null_piece;
 						if (to.n < (convertedPosition-2)) return null_piece;
@@ -103,6 +107,7 @@ Class("Validator", {
 
 		}
 		//if we are here, no pawns wew found
+		console.log("no pawn found");
 		return {
 			flag : false,
 			data : undefined

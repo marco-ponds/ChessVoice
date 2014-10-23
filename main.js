@@ -139,7 +139,7 @@ function convertPosition(letter, number) {
 	};
 }
 
-function converCoordsToPosition(pos) {
+function convertCoordsToPosition(pos) {
 	var letter_pos = (pos.x - zeroPosition.x)/step;
 	var number_pos = (zeroPosition.z - pos.z)/step;
 	return {
@@ -368,7 +368,7 @@ function displayMessage(message, type) {
 			console.info(message)
 		}
 
-		default {
+		default : {
 			console.log(message);
 		}
 
